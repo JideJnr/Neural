@@ -1,5 +1,6 @@
-export const logger = (req: Request, res: Response next) => {
-    console.log(`${req.method} ${req.originalUrl} - ${new Date().toISOString()}`);
-    next();
-  };
-  
+import { Request, Response, NextFunction } from 'express';
+
+export const logger = (req: Request, res: Response, next: NextFunction): void => {
+  console.log(`${req.method} ${req.originalUrl} - ${new Date().toISOString()}`);
+  next();
+};
