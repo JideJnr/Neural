@@ -7,7 +7,7 @@ const botStatus = {
   analysis: { running: false, lastHeartbeat: null as Date | null }
 };
 
-export const enableBot = async (req, res) => {
+export const enableBot = async (req: Request, res: Response) => {
   try {
     await publishBotCommand('START_BOT', { botName: req.body.botName });
     return res.json({ message: 'Bot start command sent.' });
@@ -16,7 +16,7 @@ export const enableBot = async (req, res) => {
   }
 };
 
-export const disableBot = async (req, res) => {
+export const disableBot = async (req: Request, res: Response) => {
   try {
     await publishBotCommand('STOP_BOT', { botName: req.body.botName });
     return res.json({ message: 'Bot stop command sent.' });

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 
 
-export const getAllMatchesByDate = async (req, res) => {
+export const getAllMatchesByDate = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -19,7 +19,7 @@ export const getAllMatchesByDate = async (req, res) => {
     }
 }
 
-export const getAllLiveMatches = async (req, res) => {
+export const getAllLiveMatches = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -35,7 +35,7 @@ export const getAllLiveMatches = async (req, res) => {
     }
 }
 
-export const getMatchById = async (req, res) => {
+export const getMatchById = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -51,7 +51,7 @@ export const getMatchById = async (req, res) => {
     }
 }
 
-export const getAllLeagues = async (req, res) => {
+export const getAllLeagues = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -67,7 +67,7 @@ export const getAllLeagues = async (req, res) => {
     }
 }
 
-export const getLeagueById = async (req, res) => {
+export const getLeagueById = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -83,7 +83,7 @@ export const getLeagueById = async (req, res) => {
     }
 }
 
-export const getAllTeams = async (req, res) => {
+export const getAllTeams = async (req: Request, res: Response) => {
       try {
       const { uid, role } = req.user;
   
@@ -99,7 +99,7 @@ export const getAllTeams = async (req, res) => {
     }
 }
 
-export const getTeamById = async (req, res) => {
+export const getTeamById = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -115,7 +115,7 @@ export const getTeamById = async (req, res) => {
     }
 }
 
-export const getAllPlayers = async (req, res) => {
+export const getAllPlayers = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -131,7 +131,7 @@ export const getAllPlayers = async (req, res) => {
     }
 }
 
-export const getPlayerById = async (req, res) => {
+export const getPlayerById = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   
@@ -147,7 +147,7 @@ export const getPlayerById = async (req, res) => {
     }
 }
 
-export const getAllTeamsByFilter = async (req, res) => {
+export const getAllTeamsByFilter = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   

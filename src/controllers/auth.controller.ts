@@ -49,7 +49,7 @@ const validatePassword = (password) => {
 };
 
 // Signup Controller
-export const signup = async (req, res) => {
+export const signup = async (req: Request, res: Response) => {
   try {
     const { email, password, firstName, lastName, phone, role = 'GUEST' } = req.body;
 
@@ -108,7 +108,7 @@ export const signup = async (req, res) => {
 };
 
 // Login Controller
-export const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -170,7 +170,7 @@ export const login = async (req, res) => {
 };
 
 // Password Reset Controller
-export const resetPassword = async (req, res) => {
+export const resetPassword = async (req: Request, res: Response) => {
   try {
     const { phone, token, newPassword } = req.body;
 
