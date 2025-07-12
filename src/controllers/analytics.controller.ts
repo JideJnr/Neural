@@ -1,6 +1,6 @@
 import { errorHandler } from '../utils/errorHandler.js';
 
-export const getAnalyticsOverview = async (req, res) => {
+export const getAnalyticsOverview = async (req: Request, res: Response) => {
     try {
       const { uid, role } = req.user;
   

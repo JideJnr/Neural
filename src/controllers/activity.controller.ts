@@ -1,6 +1,7 @@
+import { Request, Response } from 'express';
 
 
-export const getUserActivities = async (req, res) => {
+export const getUserActivities = async (req: Request, res: Response) => {
   try {
     const { uid } = req.params;
 
@@ -21,7 +22,7 @@ export const getUserActivities = async (req, res) => {
   }
 };
 
-export const updateActivity = async (req, res) => {
+export const updateActivity = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { type, description } = req.body;

@@ -18,6 +18,6 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-module.exports = (app) => {
+module.exports = (app:any) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 };
