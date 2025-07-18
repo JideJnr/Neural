@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const auth_controller_1 = require("../../../controllers/auth.controller");
-const authMiddleware_1 = require("../../../middleware/authMiddleware");
-const validators_1 = require("../../../utils/validators");
-const router = express_1.default.Router();
+import express from 'express';
+import { login, signup } from '../../../controllers/auth.controller';
+import { verifyJWT } from '../../../middleware/authMiddleware';
+import { signupValidator } from '../../../utils/validators';
+const router = express.Router();
 /**
  * @swagger
  * tags:
@@ -108,7 +103,7 @@ const router = express_1.default.Router();
  *       500:
  *         description: Server error
  */
-router.post('/signup', validators_1.signupValidator, auth_controller_1.signup);
+router.post('/signup', signupValidator, signup);
 /**
  * @swagger
  * /auth/signin:
@@ -135,7 +130,7 @@ router.post('/signup', validators_1.signupValidator, auth_controller_1.signup);
  *       500:
  *         description: Server error
  */
-router.post('/signin', auth_controller_1.login);
+router.post('/signin', login);
 /**
  * @swagger
  * /auth/verify-token:
@@ -165,5 +160,5 @@ router.post('/signin', auth_controller_1.login);
  *       500:
  *         description: Server error
  */
-router.post('/verify-token', authMiddleware_1.verifyJWT);
-exports.default = router;
+router.post('/verify-token', verifyJWT);
+export default router;

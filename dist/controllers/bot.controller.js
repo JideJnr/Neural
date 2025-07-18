@@ -1,33 +1,28 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBotNotifications = exports.getBotAlerts = exports.getBotHealth = exports.getBotPerformance = exports.getBotMetrics = exports.updateBotConfig = exports.getBotConfig = exports.clearConsoleOutput = exports.clearBotLogs = exports.getConsoleOutput = exports.getBotLogs = exports.getBotStatus = exports.resetBot = exports.heartbeat = exports.getStatus = exports.disableBot = exports.enableBot = void 0;
-const redis_1 = require("../lib/redis");
+import { publishBotCommand } from '../lib/redis';
 // In-memory store (replace with DB in production)
 const botStatus = {
     helper: { running: false, lastHeartbeat: null },
     analysis: { running: false, lastHeartbeat: null }
 };
-const enableBot = async (req, res) => {
+export const enableBot = async (req, res) => {
     try {
-        await (0, redis_1.publishBotCommand)('START_BOT', { botName: req.body.botName });
+        await publishBotCommand('START_BOT', { botName: req.body.botName });
         return res.json({ message: 'Bot start command sent.' });
     }
     catch (err) {
-        return res.status(500).json({ message: 'Failed to send start command.', error: err.message });
+        return res.status(500).json({ message: 'Failed to send start command.' });
     }
 };
-exports.enableBot = enableBot;
-const disableBot = async (req, res) => {
+export const disableBot = async (req, res) => {
     try {
-        await (0, redis_1.publishBotCommand)('STOP_BOT', { botName: req.body.botName });
+        await publishBotCommand('STOP_BOT', { botName: req.body.botName });
         return res.json({ message: 'Bot stop command sent.' });
     }
     catch (err) {
-        return res.status(500).json({ message: 'Failed to send stop command.', error: err.message });
+        return res.status(500).json({ message: 'Failed to send stop command.' });
     }
 };
-exports.disableBot = disableBot;
-const getStatus = (req, res) => {
+export const getStatus = (req, res) => {
     res.json({
         bots: [
             {
@@ -43,34 +38,18 @@ const getStatus = (req, res) => {
         ]
     });
 };
-exports.getStatus = getStatus;
-const heartbeat = (req, res) => {
+export const heartbeat = (req, res) => {
     const { bot_type } = req.body;
-    if (!['helper', 'analysis'].includes(bot_type)) {
-        return res.status(400).json({ error: "Invalid bot_type" });
-    }
-    if (!botStatus[bot_type].running) {
-        return res.status(409).json({ error: `${bot_type} bot is not running` });
-    }
-    // Update last heartbeat
-    botStatus[bot_type].lastHeartbeat = new Date();
     res.json({
         status: "success",
-        bot_type,
-        last_heartbeat: botStatus[bot_type].lastHeartbeat.toISOString()
+        bot_type
     });
 };
-exports.heartbeat = heartbeat;
-const resetBot = (req, res) => {
+export const resetBot = (req, res) => {
     const { bot_type } = req.body;
     if (!['helper', 'analysis'].includes(bot_type)) {
         return res.status(400).json({ error: "Invalid bot_type" });
     }
-    // Reset bot status
-    botStatus[bot_type] = {
-        running: false,
-        lastHeartbeat: null
-    };
     res.json({
         status: "success",
         bot_type,
@@ -78,25 +57,14 @@ const resetBot = (req, res) => {
         timestamp: new Date().toISOString()
     });
 };
-exports.resetBot = resetBot;
-const getBotStatus = (req, res) => {
+export const getBotStatus = (req, res) => {
     const { bot_type } = req.query;
     if (bot_type && !['helper', 'analysis'].includes(bot_type)) {
         return res.status(400).json({ error: "Invalid bot_type" });
     }
-    if (bot_type) {
-        const status = botStatus[bot_type];
-        return res.json({
-            type: bot_type,
-            status: status.running ? "running" : "stopped",
-            last_heartbeat: status.lastHeartbeat?.toISOString() || null
-        });
-    }
-    // Return all bot statuses
     res.json(botStatus);
 };
-exports.getBotStatus = getBotStatus;
-const getBotLogs = (req, res) => {
+export const getBotLogs = (req, res) => {
     // Placeholder for bot logs
     // In a real application, you would fetch logs from a database or log service
     const logs = [
@@ -105,8 +73,7 @@ const getBotLogs = (req, res) => {
     ];
     res.json({ logs });
 };
-exports.getBotLogs = getBotLogs;
-const getConsoleOutput = (req, res) => {
+export const getConsoleOutput = (req, res) => {
     // Placeholder for console output
     // In a real application, you would fetch console output from a logging service
     const consoleOutput = [
@@ -115,20 +82,17 @@ const getConsoleOutput = (req, res) => {
     ];
     res.json({ consoleOutput });
 };
-exports.getConsoleOutput = getConsoleOutput;
-const clearBotLogs = (req, res) => {
+export const clearBotLogs = (req, res) => {
     // Placeholder for clearing logs
     // In a real application, you would clear logs from a database or log service
     res.json({ status: "success", message: "Bot logs cleared" });
 };
-exports.clearBotLogs = clearBotLogs;
-const clearConsoleOutput = (req, res) => {
+export const clearConsoleOutput = (req, res) => {
     // Placeholder for clearing console output
     // In a real application, you would clear console output from a logging service
     res.json({ status: "success", message: "Console output cleared" });
 };
-exports.clearConsoleOutput = clearConsoleOutput;
-const getBotConfig = (req, res) => {
+export const getBotConfig = (req, res) => {
     // Placeholder for bot configuration
     // In a real application, you would fetch configuration from a database or config service
     const config = {
@@ -137,23 +101,13 @@ const getBotConfig = (req, res) => {
     };
     res.json({ config });
 };
-exports.getBotConfig = getBotConfig;
-const updateBotConfig = (req, res) => {
+export const updateBotConfig = (req, res) => {
     const { bot_type, config } = req.body;
     if (!['helper', 'analysis'].includes(bot_type)) {
         return res.status(400).json({ error: "Invalid bot_type" });
     }
-    // Update bot configuration (in-memory for this example)
-    // In a real application, you would save this to a database or config service
-    botStatus[bot_type] = { ...botStatus[bot_type], ...config };
-    res.json({
-        status: "success",
-        bot_type,
-        updated_config: botStatus[bot_type]
-    });
 };
-exports.updateBotConfig = updateBotConfig;
-const getBotMetrics = (req, res) => {
+export const getBotMetrics = (req, res) => {
     // Placeholder for bot metrics
     // In a real application, you would fetch metrics from a monitoring service
     const metrics = {
@@ -162,8 +116,7 @@ const getBotMetrics = (req, res) => {
     };
     res.json({ metrics });
 };
-exports.getBotMetrics = getBotMetrics;
-const getBotPerformance = (req, res) => {
+export const getBotPerformance = (req, res) => {
     // Placeholder for bot performance data
     // In a real application, you would fetch performance data from a monitoring service
     const performance = {
@@ -172,8 +125,7 @@ const getBotPerformance = (req, res) => {
     };
     res.json({ performance });
 };
-exports.getBotPerformance = getBotPerformance;
-const getBotHealth = (req, res) => {
+export const getBotHealth = (req, res) => {
     // Placeholder for bot health check
     // In a real application, you would perform actual health checks
     const health = {
@@ -182,8 +134,7 @@ const getBotHealth = (req, res) => {
     };
     res.json({ health });
 };
-exports.getBotHealth = getBotHealth;
-const getBotAlerts = (req, res) => {
+export const getBotAlerts = (req, res) => {
     // Placeholder for bot alerts
     // In a real application, you would fetch alerts from a monitoring service
     const alerts = [
@@ -192,8 +143,7 @@ const getBotAlerts = (req, res) => {
     ];
     res.json({ alerts });
 };
-exports.getBotAlerts = getBotAlerts;
-const getBotNotifications = (req, res) => {
+export const getBotNotifications = (req, res) => {
     // Placeholder for bot notifications
     // In a real application, you would fetch notifications from a notification service
     const notifications = [
@@ -202,4 +152,3 @@ const getBotNotifications = (req, res) => {
     ];
     res.json({ notifications });
 };
-exports.getBotNotifications = getBotNotifications;

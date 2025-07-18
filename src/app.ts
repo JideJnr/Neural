@@ -7,12 +7,11 @@ import swaggerJsdoc from 'swagger-jsdoc';
 
 const app = express();
 
-// Enhanced CORS configuration
 app.use(cors({
   origin: [
-    'http://localhost:8100', 
+    'http://localhost:8100',
     'https://editor.swagger.io',
-    'https://bj-hotel-api.onrender.com' ,
+    'https://bj-hotel-api.onrender.com',
     'http://localhost:5173'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -22,22 +21,22 @@ app.use(cors({
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Dynamic Swagger configuration
+// Swagger setup
 const isProduction = process.env.NODE_ENV === 'production';
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API',
+      title: 'Neural API',
       version: '1.0.0',
-      description: 'API documentation for  project',
+      description: 'API documentation for the Neural project',
     },
     servers: [
       {
         url: isProduction 
           ? 'https://bj-hotel-api.onrender.com/api/v1' 
           : 'http://localhost:3000/api/v1',
-        description: isProduction ? 'Production server' : 'Local development'
+        description: isProduction ? 'Production' : 'Local Dev',
       }
     ],
     components: {
@@ -56,18 +55,16 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Routes
-app.use('/', routes);
-
-// Health check endpoint
+// Health
 app.get('/health', (req, res) => {
-  const healthcheck = {
+  res.status(200).json({
+    status: 'healthy',
     uptime: process.uptime(),
-    message: 'OK',
     timestamp: Date.now(),
     environment: process.env.NODE_ENV || 'development'
-  };
-  res.status(200).json(healthcheck);
+  });
 });
+
+app.use('/', routes);
 
 export default app;

@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 
 export const getAllMatchesByDate = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -21,7 +21,7 @@ export const getAllMatchesByDate = async (req: Request, res: Response) => {
 
 export const getAllLiveMatches = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -37,7 +37,7 @@ export const getAllLiveMatches = async (req: Request, res: Response) => {
 
 export const getMatchById = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -53,7 +53,7 @@ export const getMatchById = async (req: Request, res: Response) => {
 
 export const getAllLeagues = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -69,7 +69,7 @@ export const getAllLeagues = async (req: Request, res: Response) => {
 
 export const getLeagueById = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -85,7 +85,7 @@ export const getLeagueById = async (req: Request, res: Response) => {
 
 export const getAllTeams = async (req: Request, res: Response) => {
       try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -101,7 +101,7 @@ export const getAllTeams = async (req: Request, res: Response) => {
 
 export const getTeamById = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -117,7 +117,7 @@ export const getTeamById = async (req: Request, res: Response) => {
 
 export const getAllPlayers = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -133,7 +133,7 @@ export const getAllPlayers = async (req: Request, res: Response) => {
 
 export const getPlayerById = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -149,7 +149,7 @@ export const getPlayerById = async (req: Request, res: Response) => {
 
 export const getAllTeamsByFilter = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -165,14 +165,10 @@ export const getAllTeamsByFilter = async (req: Request, res: Response) => {
 
 export const getMatchVerdicts = async (req: Request, res: Response) => {
     try {
-      const { uid, role } = req.user;
-  
-      // Fetch match verdicts using GodComplex
-      const matchVerdicts = await god.getMatchVerdicts();
+
   
       res.status(200).json({
-        success: true,
-        data: matchVerdicts
+        success: true
       });
     } catch (error) {
       errorHandler(error, req, res);

@@ -1,17 +1,12 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const morgan_1 = __importDefault(require("morgan"));
-const index_js_1 = __importDefault(require("./routes/index.js"));
-const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
-const app = (0, express_1.default)();
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import routes from './routes/index.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+const app = express();
 // Enhanced CORS configuration
-app.use((0, cors_1.default)({
+app.use(cors({
     origin: [
         'http://localhost:8100',
         'https://editor.swagger.io',
@@ -21,8 +16,8 @@ app.use((0, cors_1.default)({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express_1.default.json());
-app.use((0, morgan_1.default)('dev'));
+app.use(express.json());
+app.use(morgan('dev'));
 // Dynamic Swagger configuration
 const isProduction = process.env.NODE_ENV === 'production';
 const swaggerOptions = {
@@ -53,10 +48,10 @@ const swaggerOptions = {
     },
     apis: ['./src/routes/api/v1/*.js']
 };
-const swaggerSpec = (0, swagger_jsdoc_1.default)(swaggerOptions);
-app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec));
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
-app.use('/', index_js_1.default);
+app.use('/', routes);
 // Health check endpoint
 app.get('/health', (req, res) => {
     const healthcheck = {
@@ -67,4 +62,4 @@ app.get('/health', (req, res) => {
     };
     res.status(200).json(healthcheck);
 });
-exports.default = app;
+export default app;

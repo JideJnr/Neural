@@ -1,16 +1,21 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateSignup = void 0;
-const express_validator_1 = require("express-validator");
-exports.validateSignup = [
-    (0, express_validator_1.body)('email').isEmail().withMessage('Valid email required'),
-    (0, express_validator_1.body)('password').isLength({ min: 6 }).withMessage('Password must be 6+ chars'),
-    (0, express_validator_1.body)('firstName').notEmpty().withMessage('First name is required'),
+import { body, validationResult } from 'express-validator';
+export const validateSignup = [
+    body('email')
+        .isEmail()
+        .withMessage('Valid email required'),
+    body('password')
+        .isLength({ min: 6 })
+        .withMessage('Password must be at least 6 characters'),
+    body('firstName')
+        .notEmpty()
+        .withMessage('First name is required'),
+    // final middleware to check results
     (req, res, next) => {
-        const errors = (0, express_validator_1.validationResult)(req);
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            res.status(400).json({ errors: errors.array() });
+            return;
         }
         next();
-    }
+    },
 ];

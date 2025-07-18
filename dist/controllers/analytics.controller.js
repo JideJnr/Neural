@@ -1,17 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAnalyticsOverview = void 0;
-const errorHandler_js_1 = require("../utils/errorHandler.js");
-const getAnalyticsOverview = async (req, res) => {
+import { errorHandler } from '../utils/errorHandler.js';
+export const getAnalyticsOverview = async (req, res) => {
     try {
-        const { uid, role } = req.user;
         res.status(200).json({
             success: true,
-            data: {}
+            data: {
+            // Add your analytics overview data here
+            }
         });
     }
     catch (error) {
-        (0, errorHandler_js_1.errorHandler)(error, req, res);
+        errorHandler(error, req, res);
     }
 };
-exports.getAnalyticsOverview = getAnalyticsOverview;

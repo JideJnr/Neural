@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 
 export const predictionsOverview = async (req:Request, res:Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
       
       res.status(200).json({
@@ -20,7 +20,7 @@ export const predictionsOverview = async (req:Request, res:Response) => {
 
 export const getAllPredictions = async (req:Request, res:Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -36,7 +36,7 @@ export const getAllPredictions = async (req:Request, res:Response) => {
 
 export const getMatchPredictions = async (req:Request, res:Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -53,7 +53,7 @@ export const getMatchPredictions = async (req:Request, res:Response) => {
 
 export const getAllActivePredictions = async (req:Request, res:Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -69,7 +69,7 @@ export const getAllActivePredictions = async (req:Request, res:Response) => {
 
 export const getAllSuccessfulPredictions = async (req:Request, res:Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -85,7 +85,7 @@ export const getAllSuccessfulPredictions = async (req:Request, res:Response) => 
 
 export const getAllFailedPredictions = async (req:Request, res:Response) => {
     try {
-      const { uid, role } = req.user;
+      
   
   
       res.status(200).json({
@@ -98,5 +98,22 @@ export const getAllFailedPredictions = async (req:Request, res:Response) => {
       errorHandler(error, req, res);
     }
 }
+
+export const betBuilder = async (req:Request, res:Response) => {
+    try {
+      
+  
+  
+      res.status(200).json({
+        success: true,
+        data: {
+          
+        }
+      });
+    } catch (error) {
+      errorHandler(error, req, res);
+    }
+}
+
 
 

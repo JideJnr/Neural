@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandler = void 0;
-const errorHandler = (error, req, res) => {
+export const errorHandler = (error, req, res) => {
     console.error('[ERROR]', error);
     // Handle different error types with appropriate status codes
     switch (true) {
@@ -44,4 +41,3 @@ const errorHandler = (error, req, res) => {
             });
     }
 };
-exports.errorHandler = errorHandler;

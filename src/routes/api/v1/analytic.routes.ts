@@ -1,19 +1,10 @@
 import express from 'express';
-import {
-  getOverview,
-  getBookingsByDate,
-  getRevenue,
-  getTopRooms,
-  getSalaryExpense
-} from '../../../controllers/analyticsController.js';
-import { verifyJWT } from '../../../middleware/authMiddleware.js';
+import { verifyJWT } from '../../../middleware/authMiddleware';
+import { getAnalyticsOverview } from '../../../controllers/analytics.controller';
+
 
 const router = express.Router();
 
-router.get('/overview', verifyJWT, getOverview);
-router.get('/bookings-by-date', verifyJWT, getBookingsByDate);
-router.get('/revenue', verifyJWT, getRevenue);
-router.get('/top-rooms', verifyJWT, getTopRooms);
-router.get('/salary-expense', verifyJWT, getSalaryExpense);
+router.get('/overview', verifyJWT, getAnalyticsOverview);
 
 export default router;

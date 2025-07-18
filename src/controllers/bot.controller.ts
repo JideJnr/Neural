@@ -7,12 +7,12 @@ const botStatus = {
   analysis: { running: false, lastHeartbeat: null as Date | null }
 };
 
-export const enableBot = async (req: Request, res: Response) => {
+export const enableBot = async (req: Request, res: Response ) => {
   try {
     await publishBotCommand('START_BOT', { botName: req.body.botName });
     return res.json({ message: 'Bot start command sent.' });
   } catch (err) {
-    return res.status(500).json({ message: 'Failed to send start command.', error: err.message });
+    return res.status(500).json({ message: 'Failed to send start command.'  });
   }
 };
 
@@ -21,7 +21,7 @@ export const disableBot = async (req: Request, res: Response) => {
     await publishBotCommand('STOP_BOT', { botName: req.body.botName });
     return res.json({ message: 'Bot stop command sent.' });
   } catch (err) {
-    return res.status(500).json({ message: 'Failed to send stop command.', error: err.message });
+    return res.status(500).json({ message: 'Failed to send stop command.'  });
   }
 };
 export const getStatus = (req: Request, res: Response) => {
@@ -44,21 +44,9 @@ export const getStatus = (req: Request, res: Response) => {
 export const heartbeat = (req: Request, res: Response) => {
   const { bot_type } = req.body;
 
-  if (!['helper', 'analysis'].includes(bot_type)) {
-    return res.status(400).json({ error: "Invalid bot_type" });
-  }
-
-  if (!botStatus[bot_type].running) {
-    return res.status(409).json({ error: `${bot_type} bot is not running` });
-  }
-
-  // Update last heartbeat
-  botStatus[bot_type].lastHeartbeat = new Date();
-
   res.json({
     status: "success",
-    bot_type,
-    last_heartbeat: botStatus[bot_type].lastHeartbeat.toISOString()
+    bot_type
   });
 };
 
@@ -69,11 +57,7 @@ export const resetBot = (req: Request, res: Response) => {
     return res.status(400).json({ error: "Invalid bot_type" });
   }
 
-  // Reset bot status
-  botStatus[bot_type] = { 
-    running: false, 
-    lastHeartbeat: null 
-  };
+ 
 
   res.json({
     status: "success",
@@ -89,17 +73,6 @@ export const getBotStatus = (req: Request, res: Response) => {
   if (bot_type && !['helper', 'analysis'].includes(bot_type as string)) {
     return res.status(400).json({ error: "Invalid bot_type" });
   }
-
-  if (bot_type) {
-    const status = botStatus[bot_type as string];
-    return res.json({
-      type: bot_type,
-      status: status.running ? "running" : "stopped",
-      last_heartbeat: status.lastHeartbeat?.toISOString() || null
-    });
-  }
-
-  // Return all bot statuses
   res.json(botStatus);
 };
 
@@ -155,15 +128,6 @@ export const updateBotConfig = (req: Request, res: Response) => {
     return res.status(400).json({ error: "Invalid bot_type" });
   }
 
-  // Update bot configuration (in-memory for this example)
-  // In a real application, you would save this to a database or config service
-  botStatus[bot_type] = { ...botStatus[bot_type], ...config };
-
-  res.json({
-    status: "success",
-    bot_type,
-    updated_config: botStatus[bot_type]
-  });
 };
 
 export const getBotMetrics = (req: Request, res: Response) => {

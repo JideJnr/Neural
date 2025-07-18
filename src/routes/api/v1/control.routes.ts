@@ -8,6 +8,10 @@ const router = Router();
 const redisPub = createClient({ url: process.env.REDIS_URL });
 redisPub.connect();
 
+redisPub.on('error', (err) => {
+  console.error('❌ Redis Publisher Error:', err);
+});
+
 /**
  * @openapi
  * /bot-control:

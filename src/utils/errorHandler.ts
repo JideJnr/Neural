@@ -1,4 +1,4 @@
-export const errorHandler = (error, req, res) => {
+export const errorHandler = (error:any, req:any, res:any) => {
     console.error('[ERROR]', error);
     
     // Handle different error types with appropriate status codes
